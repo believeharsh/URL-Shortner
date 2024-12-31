@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      /* General Styles */
+      body {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      h1 {
+        text-align: center;
+        margin-top: 20px;
+        color: #4caf50;
+      }
+
+      /* Container Styles */
+      .container {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 20px;
+        background: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+      }
+
+      /* Form Styles */
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-weight: bold;
+      }
+
+      input[type="text"] {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 14px;
+      }
+
+      button {
+        padding: 10px 15px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #45a049;
+      }
+
+      /* Table Styles */
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      thead {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        border: 1px solid #ddd;
+      }
+
+      tbody tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      a {
+        color: #4caf50;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      p {
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      .generated-url {
+        background-color: #e7f8e7;
+        border: 1px solid #4caf50;
+        padding: 10px;
+        border-radius: 4px;
+      }
+    </style>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+  </head>
+
+  <body>
+    <h1>URL Shortener</h1>
+    <div class="container">
+      <% if (locals.id) { %>
+      <div class="generated-url">
+        <p>
+          Generated short URL: <%= id %>
+          <a href="http://localhost:8001/url/<%= id %>" target="_blank"
+            >Click Here</a
+          >
+        </p>
+      </div>
+      <% } %>
+
+      <div>
+        <form action="/url" method="POST">
+          <label for="url">Enter Original URL</label>
+          <input
+            type="text"
+            id="url"
+            name="url"
+            placeholder="https://example.com"
+            required
+          />
+          <button type="submit">Generate</button>
+        </form>
+      </div>
+
+      <% if (locals.urls) { %>
+      <table>
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Short ID</th>
+            <th>Redirect</th>
+            <th>Clicks</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% urls.forEach((url, index)=> { %>
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= url.shortId %></td>
+            <td>
+              <a href="<%= url.redirectUrl %>" target="_blank">
+                <%= url.redirectUrl %>
+              </a>
+            </td>
+            <td><%= url.visitHistory.length %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+      <% } %>
+    </div>
+  </body>
+</html>
