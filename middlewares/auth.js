@@ -1,4 +1,6 @@
 const { getUser } = require("../utils/auth");
+
+// function for restricting the user to use the app without log in 
 const restrictToLoginUsers = (req, res, next) => {
   const userUID = req.cookies?.uid;
   if (!userUID) {
